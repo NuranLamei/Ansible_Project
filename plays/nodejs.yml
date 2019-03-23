@@ -1,0 +1,6 @@
+---
+- name: configure app server
+     hosts: nodejs 
+     become: true
+     roles:
+        - iti-nodejs
