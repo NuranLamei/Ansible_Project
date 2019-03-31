@@ -5,6 +5,7 @@
   with_items:
     - nodejs
     - npm
+    - express
 - name: install forever package
   npm: name=forever state=present global=yes
 - name: create nodejs path

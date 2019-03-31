@@ -1,0 +1,14 @@
+---
+- name: configure mongo
+- hosts: mongodb
+  become: true
+  tasks:
+  - name: install mongodb
+    yum: 
+      name: mongodb
+      state: latest
+    notify:
+    - start mongodb
+  handlers:
+    - name: start mongodb
+      service: name=mongod state=started
