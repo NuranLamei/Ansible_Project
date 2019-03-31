@@ -1,7 +1,6 @@
 ---
-
 - name: configure angular server
   hosts: angular
   become: true
   roles:
-    - angular             
+    - angular

@@ -1,6 +1,6 @@
 ---
 - name: configure app server
-  hosts: nodejs 
+  hosts: nodejs
   become: true
   roles:
     - nodejs
