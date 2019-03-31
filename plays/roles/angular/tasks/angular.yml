@@ -1,0 +1,10 @@
+- name: create angular path
+  file: 
+    path: /var/angular
+    state: directory
+
+- name: copy project directory
+  copy:
+    src: ../files/angular/goodreads
+    dest: /var/angular/goodreads
+
