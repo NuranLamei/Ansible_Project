@@ -5,6 +5,6 @@
 
 - name: copy project directory
   copy:
-    src: ../files/angular/goodreads
-    dest: /var/angular/goodreads
+    src: goodReads
+    dest: /var/angular/good_reads
 

@@ -5,7 +5,6 @@
   with_items:
     - nodejs
     - npm
-    - express
 - name: install forever package
   npm: name=forever state=present global=yes
 - name: create nodejs path
@@ -15,12 +14,14 @@
 
 - name: copy project directory
   copy:
-    src: ../files/nodejs/goodreads
-    dest: /var/nodejs/goodreads
+    src: nodejs/good_reads
+    dest: /var/nodejs/good_reads
 
 - name: Running NPM install
-  npm: path=/var/nodejs/goodreads/goodreads/
+  npm:
+     path: /var/nodejs/good_reads/good_reads/
   changed_when: false
+  notify: install express
 
 - name: check running nodejs application
   command: forever list
@@ -28,5 +29,5 @@
   changed_when: false
 
 - name: start nodejs app
-  command: forever start /var/nodejs/goodreads/goodreads/index.js
-  when: " forever_list.stdout.find('/var/nodejs/goodreads/goodreads/index.js') == -1"
+  command: forever start /var/nodejs/good_reads/good_reads/index.js
+  when: " forever_list.stdout.find('/var/nodejs/good_reads/good_reads/index.js') == -1"

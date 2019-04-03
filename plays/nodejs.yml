@@ -4,3 +4,12 @@
   become: true
   roles:
     - nodejs
+  handlers:
+    - name: install express
+      npm:
+        name: "{{item}}"
+        path: /var/nodejs/goodreads/goodreads/
+      with_items:
+             - express
+             - mongoose
+
