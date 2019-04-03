@@ -1,16 +1,64 @@
 ---
 
-- name: create angular path
+- name: download nodejs 8 repo
+  shell: "curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -"
+
+- name: install nodejs and npm
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - nodejs
+
+- name: install forever package
+  npm: name=forever state=present global=yes
+
+- name: create angular project path
   file: 
     path: /var/angular
     state: directory
 
 - name: copy project directory
   copy:
-    src: goodReads
+    src: good_reads
     dest: /var/angular/good_reads
 
 - name: connecting angular with nodejs
   copy:
     src: baseurl.ts
-    dest: /var/angular/good_reads/goodreads/src/app/shared/baseurl.ts
+    dest: /var/angular/good_reads/good_reads/src/app/shared/baseurl.ts
+
+- name: Running NPM install
+  become_method: sudo
+  become_flags: 'su - root /bin/bash -c'
+  command: npm install /var/angular/good_reads/good_reads/
+  changed_when: false
+
+- name: install and link angular
+  become: true
+  command: "cd /var/angular/good_reads/good_reads/"
+  changed_when: false
+
+- name: install and link angular
+  become: true
+  command: "npm install"
+  changed_when: false
+
+- name: install and link angular
+  become: true
+  command: "npm install -g @angular/cli"
+  changed_when: false
+
+- name: install and link angular
+  become: true
+  command: "npm link @angular/cli"
+  changed_when: false
+
+- name: check running angular application
+  command: forever list
+  register: forever_list
+  changed_when: false
+
+- name: start angular app
+  command: "forever start /var/angular/good_reads/good_reads/node_modules/@angular/cli/bin/ng serve --host 0.0.0.0"
+  when: " forever_list.stdout.find('/var/angular/good_reads/good_reads') == -1"
