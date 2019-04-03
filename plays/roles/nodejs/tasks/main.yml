@@ -1,10 +1,12 @@
+- name: download nodejs 8 repo
+  shell: "curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -"
+
 - name: install nodejs and npm
   yum:
     name: "{{ item }}"
     state: installed
   with_items:
     - nodejs
-    - npm
 - name: install forever package
   npm: name=forever state=present global=yes
 - name: create nodejs path
@@ -18,10 +20,12 @@
     dest: /var/nodejs/good_reads
 
 - name: Running NPM install
-  npm:
-     path: /var/nodejs/good_reads/good_reads/
+  command: npm install /var/nodejs/good_reads/good_reads/
   changed_when: false
-  notify: install express
+
+- name: install express
+  command: npm install express --save
+  changed_when: false
 
 - name: check running nodejs application
   command: forever list

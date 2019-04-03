@@ -1,3 +1,5 @@
+---
+
 - name: create angular path
   file: 
     path: /var/angular
@@ -8,3 +10,7 @@
     src: goodReads
     dest: /var/angular/good_reads
 
+- name: connecting angular with nodejs
+  copy:
+    src: baseurl.ts
+    dest: /var/angular/good_reads/goodreads/src/app/shared/baseurl.ts
